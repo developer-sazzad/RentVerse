@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiClock, FiUser, FiCalendar, FiShare2, FiArrowLeft, FiTag } from 'react-icons/fi';
+import { FiClock, FiCalendar, FiShare2, FiArrowLeft, FiTag } from 'react-icons/fi';
 import { FaFacebook, FaTwitter, FaLinkedin } from 'react-icons/fa';
 
 function BlogPost() {
@@ -49,43 +49,78 @@ function BlogPost() {
   };
 
   return (
-    <div className="min-h-screen bg-secondary-50">
-      {/* Hero Section */}
-      <div className="relative h-[400px]">
-        <img
-          src={post.image}
-          alt={post.title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-50" />
-        <div className="absolute inset-0 flex items-center">
-          <div className="container">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="max-w-3xl text-white"
-            >
-              <Link to="/blog" className="inline-flex items-center text-white mb-6 hover:text-primary-300">
-                <FiArrowLeft className="mr-2" />
-                Back to Blog
+    <div className="min-h-screen bg-slate-50 dark:bg-secondary-900 text-secondary-900 dark:text-white transition-colors duration-200">
+      {/* =========================================================================
+          IMPROVED HERO SECTION: Single Blog Article Hero (Dual Theme)
+          ========================================================================= */}
+      <div className="relative min-h-[460px] sm:min-h-[500px] flex items-center overflow-hidden bg-slate-100 dark:bg-[#051124] text-secondary-900 dark:text-white border-b border-slate-200/80 dark:border-secondary-800 transition-colors duration-300">
+        {/* Background Image Container */}
+        <div className="absolute inset-0">
+          <img
+            src={post.image}
+            alt={post.title}
+            className="w-full h-full object-cover object-center scale-105 transition-transform duration-700"
+          />
+          {/* Dual-Theme Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/70 to-slate-100/60 dark:from-[#051124] dark:via-[#051124]/80 dark:to-[#051124]/60 transition-colors duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-transparent to-white/90 dark:from-[#051124]/90 dark:via-[#051124]/60 dark:to-[#051124]/90 transition-colors duration-300" />
+
+          {/* Ambient Lighting Accents */}
+          <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-primary-400/15 dark:bg-primary-500/15 rounded-full blur-3xl pointer-events-none transition-colors duration-300" />
+        </div>
+
+        <div className="relative container pt-12 pb-16 z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-4xl"
+          >
+            {/* Top Navigation & Category Pill */}
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <Link
+                to="/blog"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/80 dark:bg-white/10 hover:bg-white dark:hover:bg-white/20 backdrop-blur-md text-secondary-900 dark:text-white text-xs sm:text-sm font-semibold border border-slate-300/80 dark:border-white/20 shadow-sm transition-all"
+              >
+                <FiArrowLeft className="text-base text-primary-600 dark:text-primary-400" />
+                <span>Back to Articles</span>
               </Link>
-              <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-              <div className="flex items-center text-secondary-200 space-x-6">
-                <div className="flex items-center">
-                  <FiUser className="mr-2" />
-                  {post.author}
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-primary-600 dark:bg-primary-600/90 text-white backdrop-blur-md shadow-sm">
+                <FiTag size={13} />
+                <span>{post.category}</span>
+              </span>
+            </div>
+
+            {/* Article Title */}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-6 tracking-tight leading-tight text-secondary-900 dark:text-white drop-shadow-sm">
+              {post.title}
+            </h1>
+
+            {/* Author Meta Row */}
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-4 border-t border-slate-300/60 dark:border-white/15 text-xs sm:text-sm text-secondary-600 dark:text-slate-300">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-600/30 border border-primary-300 dark:border-primary-400/60 flex items-center justify-center font-bold text-primary-700 dark:text-white text-sm shadow-sm">
+                  {post.author.charAt(0)}
                 </div>
-                <div className="flex items-center">
-                  <FiCalendar className="mr-2" />
-                  {post.date}
-                </div>
-                <div className="flex items-center">
-                  <FiClock className="mr-2" />
-                  {post.readTime}
+                <div>
+                  <p className="font-semibold text-secondary-900 dark:text-white">{post.author}</p>
+                  <p className="text-xs text-secondary-500 dark:text-slate-400">Contributor & Analyst</p>
                 </div>
               </div>
-            </motion.div>
-          </div>
+
+              <div className="hidden sm:block w-px h-6 bg-slate-300 dark:bg-white/20" />
+
+              <div className="flex items-center gap-1.5">
+                <FiCalendar className="text-primary-600 dark:text-primary-400 text-base" />
+                <span>Published on {post.date}</span>
+              </div>
+
+              <div className="flex items-center gap-1.5">
+                <FiClock className="text-primary-600 dark:text-primary-400 text-base" />
+                <span>{post.readTime}</span>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
 
@@ -99,9 +134,9 @@ function BlogPost() {
             transition={{ delay: 0.2 }}
             className="lg:col-span-2"
           >
-            <div className="bg-white rounded-lg shadow-md p-8">
+            <div className="bg-white dark:bg-secondary-800 rounded-2xl shadow-md border border-slate-200/90 dark:border-secondary-700/60 p-8 text-secondary-800 dark:text-secondary-200 leading-relaxed">
               <div 
-                className="prose prose-lg max-w-none"
+                className="prose prose-lg dark:prose-invert max-w-none [&>h2]:text-secondary-900 dark:[&>h2]:text-white [&>h2]:font-bold [&>p]:text-secondary-600 dark:[&>p]:text-secondary-300 [&>ul]:text-secondary-600 dark:[&>ul]:text-secondary-300 [&>ol]:text-secondary-600 dark:[&>ol]:text-secondary-300"
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
             </div>
@@ -115,35 +150,35 @@ function BlogPost() {
           >
             <div className="space-y-6">
               {/* Share */}
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold mb-4 flex items-center">
-                  <FiShare2 className="mr-2" />
+              <div className="bg-white dark:bg-secondary-800 rounded-2xl shadow-md border border-slate-200/90 dark:border-secondary-700/60 p-6">
+                <h3 className="text-lg font-bold mb-4 flex items-center text-secondary-900 dark:text-white">
+                  <FiShare2 className="mr-2 text-primary-600 dark:text-primary-400" />
                   Share this article
                 </h3>
                 <div className="flex space-x-4">
-                  <button className="p-2 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200">
+                  <button className="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
                     <FaFacebook size={20} />
                   </button>
-                  <button className="p-2 rounded-full bg-sky-100 text-sky-500 hover:bg-sky-200">
+                  <button className="p-3 rounded-xl bg-sky-50 dark:bg-sky-950/40 text-sky-500 dark:text-sky-400 hover:bg-sky-100 dark:hover:bg-sky-900/40 transition-colors">
                     <FaTwitter size={20} />
                   </button>
-                  <button className="p-2 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200">
+                  <button className="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
                     <FaLinkedin size={20} />
                   </button>
                 </div>
               </div>
 
               {/* Tags */}
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold mb-4 flex items-center">
-                  <FiTag className="mr-2" />
+              <div className="bg-white dark:bg-secondary-800 rounded-2xl shadow-md border border-slate-200/90 dark:border-secondary-700/60 p-6">
+                <h3 className="text-lg font-bold mb-4 flex items-center text-secondary-900 dark:text-white">
+                  <FiTag className="mr-2 text-primary-600 dark:text-primary-400" />
                   Tags
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {post.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-secondary-100 text-secondary-600 rounded-full text-sm"
+                      className="px-3.5 py-1.5 bg-slate-100 dark:bg-secondary-700 text-secondary-700 dark:text-secondary-300 rounded-xl text-xs font-semibold"
                     >
                       {tag}
                     </span>

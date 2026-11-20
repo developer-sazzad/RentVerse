@@ -114,20 +114,34 @@ We aim to respond to all inquiries within 48 hours.`
   ];
 
   return (
-    <div className="min-h-screen bg-secondary-50 py-16">
-      <div className="container">
+    <div className="min-h-screen bg-slate-50 dark:bg-secondary-900 text-secondary-900 dark:text-white transition-colors duration-200">
+      {/* Privacy Hero Banner */}
+      <section className="relative bg-gradient-to-b from-slate-900 via-secondary-900 to-secondary-950 text-white py-16 sm:py-20 overflow-hidden border-b border-secondary-800">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-32 right-1/4 w-96 h-96 bg-primary-600/15 rounded-full blur-3xl" />
+        </div>
+        <div className="relative container z-10 text-center max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-white">Privacy Policy</h1>
+            <p className="text-base sm:text-lg text-secondary-300 max-w-2xl mx-auto">
+              Last updated: March 15, 2024 &bull; Your privacy and security are our top priorities.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      <div className="container py-12 lg:py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-4xl mx-auto"
         >
-          <h1 className="text-4xl font-bold text-center mb-4">Privacy Policy</h1>
-          <p className="text-secondary-600 text-center mb-12">
-            Last updated: March 15, 2024
-          </p>
-
-          <div className="bg-white rounded-lg shadow-md p-8">
-            <div className="space-y-8">
+          <div className="bg-white dark:bg-secondary-800 rounded-2xl shadow-md border border-slate-200/90 dark:border-secondary-700/60 p-8">
+            <div className="space-y-8 divide-y divide-slate-100 dark:divide-secondary-700/60">
               {sections.map((section, index) => (
                 <motion.div
                   key={index}
@@ -135,9 +149,10 @@ We aim to respond to all inquiries within 48 hours.`
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
+                  className={index > 0 ? "pt-8" : ""}
                 >
-                  <h2 className="text-2xl font-semibold mb-4">{section.title}</h2>
-                  <div className="text-secondary-600 whitespace-pre-line">
+                  <h2 className="text-2xl font-bold mb-4 text-secondary-900 dark:text-white">{section.title}</h2>
+                  <div className="text-secondary-600 dark:text-secondary-300 whitespace-pre-line leading-relaxed">
                     {section.content}
                   </div>
                 </motion.div>

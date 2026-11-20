@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FiChevronDown, FiChevronUp, FiHelpCircle } from 'react-icons/fi';
 
 function FAQ() {
   const [openSections, setOpenSections] = useState({});
@@ -178,45 +178,83 @@ function FAQ() {
   ];
 
   const toggleSection = (sectionTitle, questionIndex) => {
-    setOpenSections(prev => ({
-      ...prev,
-      [`${sectionTitle}-${questionIndex}`]: !prev[`${sectionTitle}-${questionIndex}`]
-    }));
+    const key = `${sectionTitle}-${questionIndex}`;
+    setOpenSections(prev => (prev[key] ? {} : { [key]: true }));
   };
  
 
   return (
-    <div className="min-h-screen bg-secondary-50 py-16">
-      <div className="container">
+    <div className="min-h-screen bg-slate-50 dark:bg-secondary-900 text-secondary-900 dark:text-white transition-colors duration-200">
+      {/* =========================================================================
+          HERO SECTION: Dual-Theme (Light & Dark) Hero for FAQ Page
+          ========================================================================= */}
+      <section className="relative min-h-[360px] sm:min-h-[400px] flex items-center justify-center overflow-hidden bg-slate-100 dark:bg-[#051124] border-b border-slate-200/80 dark:border-secondary-800 transition-colors duration-300">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600&q=80"
+            alt="FAQ Hero Background"
+            className="w-full h-full object-cover object-center scale-105 transition-transform duration-700"
+          />
+          {/* Dual-Theme Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/40 to-slate-50/90 dark:from-[#051124]/90 dark:via-[#051124]/75 dark:to-[#051124]/95 transition-colors duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-r from-white/70 via-transparent to-white/70 dark:from-[#051124]/85 dark:via-transparent dark:to-[#051124]/85 transition-colors duration-300" />
+
+          {/* Ambient Glows */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary-400/15 dark:bg-primary-600/20 rounded-full blur-3xl pointer-events-none transition-colors duration-300" />
+          <div className="absolute -top-24 right-1/4 w-72 h-72 bg-sky-300/20 dark:bg-blue-500/15 rounded-full blur-3xl pointer-events-none transition-colors duration-300" />
+        </div>
+
+        <div className="relative container pt-12 pb-14 z-10 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-primary-50 dark:bg-primary-950/60 border border-primary-200 dark:border-primary-500/30 text-primary-700 dark:text-primary-300 mb-4 backdrop-blur-md">
+              <FiHelpCircle className="text-primary-600 dark:text-primary-400" />
+              <span>Help & Support Center</span>
+            </span>
+
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 text-secondary-900 dark:text-white leading-tight">
+              Frequently Asked Questions
+            </h1>
+
+            <p className="text-base sm:text-lg text-secondary-700 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+              Find answers to common questions about our platform, cryptocurrency payments, and tokenized real estate investment.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      <div className="container py-12 lg:py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-3xl mx-auto"
         >
-          <h1 className="text-4xl font-bold text-center mb-4">Frequently Asked Questions</h1>
-          <p className="text-secondary-600 text-center mb-12">
-            Find answers to common questions about our platform, cryptocurrency payments, and real estate investment.
-          </p>
-
           <div className="space-y-8">
             {faqSections.map((section, sectionIndex) => (
-              <div key={sectionIndex} className="bg-white rounded-lg shadow-md overflow-hidden">
-                <h2 className="text-xl font-semibold p-6 bg-secondary-50">
+              <div key={sectionIndex} className="bg-white dark:bg-secondary-800 rounded-2xl shadow-md border border-slate-200/90 dark:border-secondary-700/60 overflow-hidden">
+                <h2 className="text-xl font-bold p-6 bg-slate-100/90 dark:bg-secondary-900/80 border-b border-slate-200 dark:border-secondary-700/80 text-secondary-900 dark:text-white">
                   {section.title}
                 </h2>
-                <div className="divide-y divide-secondary-100">
+                <div className="divide-y divide-slate-100 dark:divide-secondary-700/60">
                   {section.questions.map((item, questionIndex) => (
                     <div key={questionIndex} className="p-6">
                       <button
-                        className="w-full flex justify-between items-center text-left"
+                        className="w-full flex justify-between items-center text-left group"
                         onClick={() => toggleSection(section.title, questionIndex)}
                       >
-                        <span className="font-medium">{item.question}</span>
-                        {openSections[`${section.title}-${questionIndex}`] ? (
-                          <FiChevronUp className="flex-shrink-0 ml-4" />
-                        ) : (
-                          <FiChevronDown className="flex-shrink-0 ml-4" />
-                        )}
+                        <span className="font-semibold text-secondary-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                          {item.question}
+                        </span>
+                        <span className="p-1 rounded-lg bg-slate-100 dark:bg-secondary-700 text-secondary-600 dark:text-secondary-300 group-hover:bg-primary-50 dark:group-hover:bg-primary-950/50 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors flex-shrink-0 ml-4">
+                          {openSections[`${section.title}-${questionIndex}`] ? (
+                            <FiChevronUp size={18} />
+                          ) : (
+                            <FiChevronDown size={18} />
+                          )}
+                        </span>
                       </button>
                       <AnimatePresence>
                         {openSections[`${section.title}-${questionIndex}`] && (
@@ -227,7 +265,7 @@ function FAQ() {
                             transition={{ duration: 0.3 }}
                             className="overflow-hidden"
                           >
-                            <p className="mt-4 text-secondary-600">
+                            <p className="mt-4 text-secondary-600 dark:text-secondary-300 text-sm leading-relaxed border-t border-slate-100 dark:border-secondary-700/40 pt-4">
                               {item.answer}
                             </p>
                           </motion.div>
